@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.oracle.atg.ateam</groupId>
+	<artifactId>crsBCCExample</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.oracle.atg.ateam</groupId>
+				<artifactId>atg-runAssembler-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>buildEar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>runAssembler</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<destinationEar>/tmp/crsBCC.ear</destinationEar>
+					<moduleNames>DCS-UI.Versioned BIZUI PubPortlet DafEar.Admin
+						ContentMgmt.Versioned DCS.Versioned DCS-UI Store.EStore.Versioned
+						Store.Storefront DCS-UI.SiteAdmin.Versioned SiteAdmin.Versioned
+						ContentMgmt.Endeca.Index.Versioned DCS.Endeca.Index.Versioned
+						Store.Endeca.Index.Versioned DCS.Endeca.Index.SKUIndexing
+						Store.KnowledgeBase</moduleNames>
+					<serverName>ATGPublishing</serverName>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+</project>

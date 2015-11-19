@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.oracle.atg.ateam</groupId>
+	<artifactId>passThroughExample</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.oracle.atg.ateam</groupId>
+				<artifactId>atg-runAssembler-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>buildEar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>runAssembler</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<moduleNames>DAS</moduleNames>
+					<liveconfig>true</liveconfig>
+					<standalone>true</standalone>
+					<pack>true</pack>
+					<layer>Staging Preview</layer>
+					<!-- only this passThroughCommand matters here. All the other config 
+						params used will just be ignored when this is set -->
+					<passThroughCommand>-liveconfig /tmp/passThrough.ear -m DAS</passThroughCommand>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+</project>
