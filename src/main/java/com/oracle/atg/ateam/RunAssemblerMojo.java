@@ -275,6 +275,9 @@ public class RunAssemblerMojo extends AbstractMojo {
 			if (noFix) {
 				assemblerCommand.append(" -nofix");
 			}
+			if (standalone) {
+				assemblerCommand.append(" -standalone");
+			}
 			if (overwriteEar) {
 				assemblerCommand.append(" -overwrite");
 			}
@@ -298,9 +301,6 @@ public class RunAssemblerMojo extends AbstractMojo {
 			if (StringUtils.isNotBlank(layer)) {
 				assemblerCommand.append(" -layer ");
 				assemblerCommand.append(layer);
-			}
-			if (standalone) {
-				assemblerCommand.append(" -standalone");
 			}
 			if (StringUtils.isNotBlank(moduleNames)) {
 				assemblerCommand.append(" -m ");
