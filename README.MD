@@ -86,4 +86,11 @@ When Windows is detected, the .bat extension is automatically appended to the ru
 So on windows, the default value of bin/runAssembler will be changed to bin/runAssembler.bat at runtime.
 The only value you should have to change for the same pom setup to work between operating systems is the path to build the ear to.
 
+## Contributing
+
+atg-maven-plugin is an open source project. See
+[CONTRIBUTING](https://github.com/oracle/atg-maven-plugin/tree/master/CONTRIBUTING.md)
+for details.
+
+
 
