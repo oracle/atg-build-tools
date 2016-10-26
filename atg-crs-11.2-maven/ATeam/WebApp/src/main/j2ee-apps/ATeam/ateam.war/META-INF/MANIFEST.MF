@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+ATG-Module-Uri: ateam.war
+ATG-Context-Root: ateam

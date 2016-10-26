@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Our actual tasks are defined in the parent pom. -->
+	<!-- We get all the compile and copy tasks automatically by including the parent here. -->
+	<parent>
+		<groupId>atg.crs.mavenbuild</groupId>
+		<artifactId>CRSMavenParent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>atg.crs.mavenbuild</groupId>
+	<artifactId>Endeca-Assembler</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<!-- Define the name of the ATG module directory for this build. -->
+	<properties>
+		<module.dir.name>Endeca/Assembler</module.dir.name>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>atg.crs.mavenbuild</groupId>
+			<artifactId>EStore</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>atg</groupId>
+			<artifactId>DAF-Endeca-Assembler</artifactId>
+			<version>${atg.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>atg</groupId>
+			<artifactId>endeca-assembler-core</artifactId>
+			<version>${atg.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>atg</groupId>
+			<artifactId>endeca-assembler-navigation</artifactId>
+			<version>${atg.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>atg</groupId>
+			<artifactId>endeca-navigation</artifactId>
+			<version>${atg.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>atg</groupId>
+			<artifactId>DAF-Search-Base</artifactId>
+			<version>${atg.version}</version>
+		</dependency>							
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+			<!-- This cleans our atg.module directory when we run mvn clean. -->
+			<!-- This needs to be explicitly done since it is outside the maven default target directory. -->
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${atg.module.home}</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Our actual tasks are defined in the parent pom. -->
+	<!-- We get all the compile and copy tasks automatically by including the parent here. -->
+	<parent>
+		<groupId>atg.ateam.mavensample</groupId>
+		<artifactId>ATeamSample</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>atg.ateam.mavensample</groupId>
+	<artifactId>BuildEarStandalone</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+<!-- This build will create an EAR that only contains the ATeam sample module. No CRS will be included -->
+
+
+	<properties>
+		<!-- Path to create EAR file at. -->
+		<atg.ear.path>/tmp</atg.ear.path>
+		<!-- Name of EAR file to create. -->
+		<atg.ear.name>ATeam.ear</atg.ear.name>
+		<!-- Name of ATG server layer to pass to runAssembler. -->
+		<atg.server.name>ATGProduction</atg.server.name>		
+		<!-- List of modules to pass to runAssembler. -->
+		<atg.ear.modules>ATeamSample.ATeamWebApp DafEar.Admin</atg.ear.modules>
+	</properties>
+
+	<build>
+		<plugins>		
+			<plugin>
+				<groupId>com.oracle.atg.ateam</groupId>
+				<artifactId>atg-runAssembler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>buildEar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>runAssembler</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<destinationEar>${atg.ear.path}/${atg.ear.name}</destinationEar>
+					<moduleNames>${atg.ear.modules}</moduleNames>
+					<serverName>${atg.server.name}</serverName>
+					<overwriteEar>true</overwriteEar>
+				</configuration>
+			</plugin>			
+		</plugins>
+	</build>
+
+</project>

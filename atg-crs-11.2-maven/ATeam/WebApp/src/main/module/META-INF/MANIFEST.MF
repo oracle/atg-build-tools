@@ -1,0 +1,5 @@
+ATG-Product: ATeam WebApp
+Manifest-Version: 1.0
+ATG-Required: ATeamSample.ATeamCommon
+ATG-Web-Module: j2ee-apps/ATeam/ateam.war
+ATG-Build: ${build.number}

@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>atg.crs.mavenbuild</groupId>
+		<artifactId>CRSMavenParent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>atg.crs.mavenbuild</groupId>
+	<artifactId>DeployEar</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<!-- Note this is a copy of what is in BuildEar. This is for demonstration purposes.-->
+	<!-- You can place these values in the parent, and allow both modules to inherit them. -->
+	<!-- In a real app setup, you may be building multiple ear files (one for user facing, one for BCC, one for lock managers, etc... -->
+	<!-- This demonstrates setting the properties locally. -->
+	<properties>
+		<!-- Path to create EAR file at. -->
+		<atg.ear.path>/tmp</atg.ear.path>
+		<!-- Name of EAR file to create. -->
+		<atg.ear.name>MavenCRS.ear</atg.ear.name>
+		<!-- Name of ATG server layer to pass to runAssembler. -->
+		<atg.server.name>ATGProduction</atg.server.name>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+        <!-- This is the configuration for the weblogic-maven-plugin -->
+				<groupId>com.oracle.weblogic</groupId>
+				<artifactId>wls-maven-plugin</artifactId>
+				<configuration>
+					<middlewareHome>${env.MW_HOME}</middlewareHome>
+				</configuration>
+				<executions>
+          			<!-- Deploy the application to the WebLogic Server  -->
+					<execution>
+						<id>wls-deploy</id>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<configuration>
+              				<!--The admin URL where the app is deployed. Here use the plugin's default value t3://localhost:7001-->
+							<adminurl>t3://127.0.0.1:7001</adminurl>
+							<!--Username and password to the weblogic admin server-->
+							<user>weblogic</user>
+							<password>password1</password>
+             				<!--The location of the file or directory to be deployed-->
+							<source>${atg.ear.path}/${atg.ear.name}</source>
+              				<!--The target servers where the application is deployed. -->
+							<targets>${atg.server.name}</targets>
+							<verbose>true</verbose>
+							<!--The name of the EAR/Application in weblogic-->
+							<name>${atg.ear.name}</name>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

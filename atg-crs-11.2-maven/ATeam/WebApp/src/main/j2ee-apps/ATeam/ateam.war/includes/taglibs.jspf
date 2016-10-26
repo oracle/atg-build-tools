@@ -1,0 +1,8 @@
+<%@ taglib prefix="dsp" uri="http://www.atg.com/taglibs/daf/dspjspTaglib1_1" %>
+
+<%-- 
+  This file is included in all *.jsp files. It is specified by an include-prelude 
+  option in web.xml.
+  NOTE: Do not set a contentType directive in this file as some JSPs will render
+  text/html, whereas others will render other mime types, including application/json.
+--%>

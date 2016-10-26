@@ -1,0 +1,163 @@
+<?xml version="1.0" ?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+  <!-- You must include a display name with the web application.  If you do not then when 
+    you run your web application on JBoss (or other app server) you will be graced with 
+    a NullPointerException from within the NucleusServlet
+    
+    java.lang.NullPointerException
+    atg.servlet.NameContextManager.initializeSessionNameContext(NameContextManager.java:504)
+    atg.taglib.dspjsp.Utils.checkParentSessionNameContext(Unknown Source)
+    atg.filter.dspjsp.PageFilter.doFilter(Unknown Source)
+    org.jboss.web.tomcat.filters.ReplyHeaderFilter.doFilter(ReplyHeaderFilter.java:75)
+  -->
+  <display-name>ATeamSample</display-name>
+
+  <!-- This setting tells JBoss that it needs to manage session replication.  If you 
+    deploy this web application on a non-farmed JBoss server you will see this 
+    error message in the server console:
+    
+    13:04:35,751 ERROR [JBossCacheManager] JBossCacheService to Tomcat clustering not found
+    13:04:35,751 ERROR [TomcatDeployer] Failed to setup clustering, clustering disabled       
+    
+    <distributable/>
+  -->
+
+  <!-- 
+    This is the name/value of the "parent web application", i.e. the name
+    of a web application, which has a SessionNameContextServlet defined in it
+    that will define the session scope for this web application. 
+    Setting this here allows the child application to share the same session 
+    scope with the above application.  Meaning these two apps share session.
+    The parent web application OOTB is DafEar.base.
+  -->
+  <context-param>
+    <param-name>atg.session.parentContextName</param-name>
+    <param-value>/dyn</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>atg.dafear.bootstrapContextName</param-name>
+    <param-value>/dyn</param-value>
+  </context-param>
+
+  <!--
+    If context-root is set here, then ServletContextWebAppRegistry will use
+    this setting as the context-root for this WebApp. This must match
+    the context-root setting in application.xml.
+  -->
+  <context-param>
+    <param-name>context-root</param-name>
+    <param-value>ateam</param-value>
+  </context-param>
+  
+  <!--
+    atg.assembler context parameter indicates that we want to execute the 
+    AssemblerPiplineServlet which will use the assembler api to return content
+    from Experience Manager or Guided Search.  
+  -->
+  <context-param>
+    <param-name>atg.assembler</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <!--
+    Called when a request is for a .jsp file, the PageFilter servlet is
+    the entry point into the DAF pipeline. PageFilter calls
+    atg/dynamo/servlet/dafpipeline/DynamoHandler to start the DAF servlet
+    pipeline for JSP requests. The DAF servlet pipeline relies on JBoss
+    to handle the complete page compilation process.
+  -->
+  <filter>
+    <filter-name>PageFilter</filter-name>
+    <filter-class>atg.filter.dspjsp.PageFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>ErrorFilter</filter-name>
+    <filter-class>atg.servlet.ErrorFilter</filter-class>
+  </filter>  
+
+  <filter-mapping>
+    <filter-name>PageFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!-- 
+    This servlet must be defined in each web application which is designated
+    as a "main" web application (i.e. its context name is the value of
+    another web application's atg.session.parentContextName parameter).  
+
+    If you are seeing this here then this web application is being designated as 
+    a parent web app.  Which means it will not share session with another 
+    web application; other web applications may look to it as a parent when 
+    sharing sessions.  Ensure the atg.session.parentContextName is also set 
+    to the context root of this web application.
+
+    Only uncomment this if this web application is a parent web application.
+
+    <servlet>
+    <servlet-name>SessionNameContextServlet</servlet-name>
+    <servlet-class>atg.nucleus.servlet.SessionNameContextServlet</servlet-class>
+    </servlet>
+  -->
+
+  <!--
+    To use ATG platform functionality, a Web application on a 3rd party application 
+    server needs to start Nucleus by invoking NucleusSerlvet. This servlet does not 
+    need to have any paths mapped to it, but must have the load-on-startup flag set 
+    to 1 so that it runs before any other ATG component. The NucleusServlet creates 
+    an instance of Nucleus and sets it as an attribute of the web application.
+  -->
+  <servlet>
+    <servlet-name>NucleusServlet</servlet-name>
+    <servlet-class>
+      atg.nucleus.servlet.NucleusServlet
+    </servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <!-- 
+    Dynamo ELResolver event listener allowing JSTL expressions to refer to 
+    Nucleus component and dynamic bean properties (including repository item properties)   
+  -->
+  <listener>
+    <listener-class>atg.taglib.dspjsp.RegisterELResolverServletContextListener</listener-class>
+  </listener>
+
+  <welcome-file-list>
+    <welcome-file>test.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- the 404 error page -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/global/pageNotFound.jsp</location>
+  </error-page>
+  
+  <!-- the 500 error page -->
+  <error-page>
+    <error-code>500</error-code>
+    <location>/global/serverError.jsp</location>
+  </error-page>
+  
+  <!-- the 409 error page -->
+  <error-page>
+    <error-code>409</error-code>
+    <location>/global/sessionExpired.jsp</location>
+  </error-page>  
+
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+      <scripting-invalid>true</scripting-invalid>
+      <include-prelude>/includes/taglibs.jspf</include-prelude>
+    </jsp-property-group>
+  </jsp-config>
+  
+</web-app>
