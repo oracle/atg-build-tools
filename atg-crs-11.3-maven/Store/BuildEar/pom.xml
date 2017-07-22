@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Our actual tasks are defined in the parent pom. -->
+	<!-- We get all the compile and copy tasks automatically by including the 
+		parent here. -->
+	<parent>
+		<groupId>atg.crs.mavenbuild</groupId>
+		<artifactId>CRSMavenParent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>atg.crs.mavenbuild</groupId>
+	<artifactId>BuildEar</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<!-- Path to create EAR file at. -->
+		<atg.ear.path>/tmp</atg.ear.path>
+		<!-- Name of EAR file to create. -->
+		<atg.ear.name>MavenCRS.ear</atg.ear.name>
+		<!-- Name of ATG server layer to pass to runAssembler. -->
+		<atg.server.name>ATGProduction</atg.server.name>
+		<!-- List of modules to pass to runAssembler. -->
+		<atg.ear.modules>MavenStore.EStore DafEar.Admin DPS DSS ContentMgmt DCS.PublishingAgent
+			DCS.AbandonedOrderServices ContentMgmt.Endeca.Index DCS.Endeca.Index
+			MavenStore.Endeca.Index DAF.Endeca.Assembler PublishingAgent
+			DCS.Endeca.Index.SKUIndexing MavenStore.Storefront MavenStore.Recommendations
+			MavenStore.Fluoroscope MavenStore.Fulfillment MavenStore.KnowledgeBase</atg.ear.modules>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- Copy hotfix dependencies to a local hotfix dir under target -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-p1234-fakehotfix</id>
+						<!-- We want this copy to run before the ear is built, so we use a 
+							phase before package -->
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<!-- Note there is no version listed here. The version is controlled 
+										in the top level parent -->
+									<!-- This way, anyone that wants the commons-codec dependency gets 
+										the same version. -->
+									<groupId>atg</groupId>
+									<artifactId>p1234-fakehotfix</artifactId>
+									<outputDirectory>${project.build.directory}/hotfix</outputDirectory>
+									<!--Maven will append the version to the end of the file if we don't 
+										explicitly give a name -->
+									<destFileName>p1234-fakehotfix.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.oracle.atg.ateam</groupId>
+				<artifactId>atg-runAssembler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>buildEar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>runAssembler</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<destinationEar>${atg.ear.path}/${atg.ear.name}</destinationEar>
+					<moduleNames>${atg.ear.modules}</moduleNames>
+					<serverName>${atg.server.name}</serverName>
+					<overwriteEar>true</overwriteEar>
+					<!-- This will tell runAssembler to import this hotfix, and add it to 
+						the beginning of the classpath -->
+					<prependJars>${project.build.directory}/hotfix/p1234-fakehotfix.jar</prependJars>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

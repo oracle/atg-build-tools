@@ -1,0 +1,217 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Our actual tasks are defined in the parent pom. -->
+	<!-- We get all the compile and copy tasks automatically by including the parent here. -->
+	<parent>
+		<groupId>atg.crs.mavenbuild</groupId>
+		<artifactId>CRSMavenParent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>atg.crs.mavenbuild</groupId>
+	<artifactId>Storefront</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<!-- Define the name of the ATG module directory for this build. -->
+	<properties>
+		<module.dir.name>Storefront</module.dir.name>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+			<!-- This cleans our atg.module directory when we run mvn clean. -->
+			<!-- This needs to be explicitly done since it is outside the maven default target directory. -->
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${atg.module.home}</directory>
+						<!-- Prevent our ATG submodules from being deleted since these are handled in other projects. -->
+						<excludes>
+				      		<exclude>NoPublishing/**</exclude>
+					    </excludes>							
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<!-- Override the j2ee tree copy from the parent pom. -->
+			<!-- This is another way you can move the directory if you want to treat the entire module and j2ee app as a single unit. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<includeEmptyDirs>true</includeEmptyDirs>
+				</configuration>
+				<executions>
+					<execution>
+							<!-- Copy j2ee trees to the module directory -->
+						<id>copy-j2ee-app</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${atg.module.home}</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>src/main/</directory>
+									<includes>
+										<include>j2ee-apps/**</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>		
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<!-- Copy dependencies to the WEB-INF lib directory for store.war-->
+				<executions>
+					<execution>
+						<id>store.war-copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${atg.module.home}/j2ee-apps/Storefront/store.war/WEB-INF/lib</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>dspjspTaglib1_0</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>dspjspTaglib1_0.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>webui-preview-1_0</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>webui-preview-1_0.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>springtonucleus</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>springtonucleus.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>json-taglib-0.4</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>json-taglib-0.4.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>jstl-1.1</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>jstl.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>standard-1.1</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>standard.jar</destFileName>
+								</artifactItem>
+<!--The following are opensource spring libraries used by the CRS, but not included in the standard Commerce install -->								
+<!--They are included in the Commerce Reference Store install, but we are just going to pull them from the standard maven repo -->
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-aop</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-asm</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-beans</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-context</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-core</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-expression</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.springframework</groupId>
+									<artifactId>spring-web</artifactId>
+									<version>3.0.1.RELEASE</version>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<!-- Copy dependencies to the WEB-INF lib directory for storedocroot.war-->
+					<execution>
+						<id>storedocroot.war-copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${atg.module.home}/j2ee-apps/Storefront/storedocroot.war/WEB-INF/lib</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>dspjspTaglib1_0</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>dspjspTaglib1_0.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>webui-preview-1_0</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>webui-preview-1_0.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>atg</groupId>
+									<artifactId>springtonucleus</artifactId>
+									<version>${atg.version}</version>
+									<type>jar</type>
+				  <!--Maven will append the version to the end of the file if we don't explicitly give a name -->
+									<destFileName>springtonucleus.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>					
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

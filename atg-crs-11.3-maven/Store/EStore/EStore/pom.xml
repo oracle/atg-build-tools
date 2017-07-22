@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Our actual tasks are defined in the parent pom. -->
+	<!-- We get all the compile and copy tasks automatically by including the parent here. -->
+	<parent>
+		<groupId>atg.crs.mavenbuild</groupId>
+		<artifactId>CRSMavenParent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>atg.crs.mavenbuild</groupId>
+	<artifactId>EStore</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<!-- Define the name of the ATG module directory for this build. -->
+	<properties>
+		<module.dir.name>EStore</module.dir.name>
+		<!-- Example override of build.number in parent pom. -->
+		<build.number>123.2</build.number>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+		<!-- Copy dependencies to the module lib directory -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+								<!-- Note there is no version listed here. The version is controlled in the top level parent -->
+								<!-- This way, anyone that wants the commons-codec dependency gets the same version. -->
+									<groupId>commons-codec</groupId>
+									<artifactId>commons-codec</artifactId>
+									<type>jar</type>
+									<outputDirectory>${atg.module.home}/lib</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>				
+				</executions>
+			</plugin>
+			<plugin>
+			<!-- This cleans our atg.module directory when we run mvn clean. -->
+			<!-- This needs to be explicitly done since it is outside the maven default target directory. -->
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${atg.module.home}</directory>
+						<!-- Prevent our ATG submodules from being deleted since these are handled in other projects. -->
+							<excludes>
+								<exclude>Versioned/**</exclude>
+								<exclude>International/**</exclude>
+							</excludes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Copy keystore tree to ATG module -->
+						<id>copy-keystore</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${atg.module.home}</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>src/main/</directory>
+										<includes>
+											<include>keystore/**</include>
+										</includes>									
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- Copy admin tree to ATG module -->
+						<id>copy-admin</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${atg.module.home}</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>src/main/</directory>
+										<includes>
+											<include>admin/**</include>
+										</includes>									
+								</resource>
+							</resources>
+						</configuration>
+					</execution>					
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
