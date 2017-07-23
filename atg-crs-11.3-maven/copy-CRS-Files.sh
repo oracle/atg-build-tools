@@ -172,7 +172,6 @@ changeModuleName Store/Recommendations/International/src/main/module/META-INF/MA
 changeModuleName Store/Storefront/NoPublishing/International/src/main/module/META-INF/MANIFEST.MF
 changeModuleName Store/Storefront/NoPublishing/NoPublishing/src/main/module/META-INF/MANIFEST.MF
 
-sed -i 's/Store.EStore/MavenStore.EStore/' Store/EStore/EStore/src/main/config/atg/store/security/crypto/SecretKeyStoreManager.properties
-
+sed -i 's/Store.EStore/MavenStore.EStore/' Store/EStore/EStore/src/main/config/atg/modules/Store.properties
 sed -i '$ a Build-Date: ${timestamp}' Store/EStore/EStore/src/main/module/META-INF/MANIFEST.MF
 
