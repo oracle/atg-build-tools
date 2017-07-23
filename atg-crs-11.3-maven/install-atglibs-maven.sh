@@ -221,5 +221,11 @@ mvn install:install-file \
   -Dversion=${ATG_VERSION} \
   -Dfile=${DYNAMO_ROOT}/DAF/Endeca/Assembler/lib/endeca_navigation-${ENDECA_NAV_VERSION}.jar
 
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=publishing-base \
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/Publishing/base/lib/classes.jar
 
 
