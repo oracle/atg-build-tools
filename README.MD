@@ -6,7 +6,7 @@ This repository contains projects related to build tools and build examples for 
 Maven plugin to generate ATG EAR files from a maven project. Helps you interface with runAssembler from your maven build.
 
 
-## atg-crs-11.2-maven
+## atg-crs-11.3-maven
 Demonstrates laying out ATG projects with Maven, and shows how to build and deploy the Commerce Reference Store sample application with Maven.
 
 
