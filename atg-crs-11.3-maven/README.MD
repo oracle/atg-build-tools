@@ -25,7 +25,7 @@ A PDF version of these instructions is included in the root of this repository.
     * This install file, and the POM included in DeployEar are for WebLogic 12.1.2. If you are using a different version of WebLogic, consult the WebLogic docs for installing and using the WebLogic maven plugin specific to that version.
     * Once libraries are added to your maven repository, there is no need to do it again unless they are deleted for some reason, or you change/add libraries.
 4.	Install the atg-maven-plugin if you want to be able to build EAR files. This is a one-time step.
-    * Download from here: https://github.com/oracle/atg-maven-plugin
+    * Download from here: https://github.com/anand-raju/atg-build-tools/atg-maven-plugin
     * Instructions are included. All you do is run mvn install.
 5.	Copy the Commerce Reference Store files needed for building into the Maven build tree. A script is provided that will copy the correct files to the correct location, and change the module name in the appropriate files.
     * From the directory you extracted this sample to, execute ./copy-CRS-Files.sh
