@@ -1,4 +1,4 @@
-# Oracle ATG Commerce 11.2 Commerce Reference Store Maven build
+# Oracle ATG Commerce 11.3 Commerce Reference Store Maven build
 
 This is a demonstration of building the Oracle ATG Commerce 11.2 Commerce Reference Store with Maven.
 This example build also demonstrates some best practices for managing ATG libraries, hotfixes and tag libraries in a Maven build.
@@ -6,7 +6,7 @@ This example build also demonstrates some best practices for managing ATG librar
 A PDF version of these instructions is included in the root of this repository.
 
 ### System requirements/prerequisites:
-* Oracle ATG Commerce 11.2 CRS has already been configured and installed using the instructions in the product manuals. This assumes ATG, WebLogic, Oracle database, and java are all installed and properly configured.
+* Oracle ATG Commerce 11.3 CRS has already been configured and installed using the instructions in the product manuals. This assumes ATG, WebLogic, Oracle database, and java are all installed and properly configured.
 * Maven is installed. This setup was testing with maven 3.2.5
 * A working knowledge of Maven is helpful
 
@@ -226,7 +226,7 @@ Make sure you have removed any existing deployments bound to the ATGProduction i
 ## Contributing
 
 See
-[CONTRIBUTING](https://github.com/oracle/atg-crs-11.2-maven/tree/master/CONTRIBUTING.md)
+[CONTRIBUTING](https://github.com/anand-raju/atg-crs-11.3-maven/tree/master/CONTRIBUTING.md)
 for details.
 
 
