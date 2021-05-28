@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ATG_VERSION=11.2
+ATG_VERSION=11.3
 
 # add hotfix to our maven repository. Keep the version number the same as the version of the ATG installation
 # Different versions of a hotfix can exist for different versions of ATG

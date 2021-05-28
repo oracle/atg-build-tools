@@ -1,13 +1,104 @@
 #!/bin/sh
 
-ATG_VERSION=11.2
-ENDECA_NAV_VERSION=6.5.2
+ATG_VERSION=11.3
+ENDECA_NAV_VERSION=11.3.0
 
 if [ x${DYNAMO_ROOT} = x ]; then
     echo "Your DYNAMO_ROOT directory isn't set. Exiting"
     exit 1
 fi
 
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jsp-api\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jsp-api.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=DAS-resources\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/resources.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=DSS-resources\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DSS/lib/resources.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=DPS-resources\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DPS/lib/resources.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=DCS-resources\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DCS/lib/resources.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jersey-container-servlet-core-2.21.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/jersey-container-servlet-core-2.21.1.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jersey-server-2.21.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/jersey-server-2.21.1.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=javax.ws.rs-api-2.0.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/javax.ws.rs-api-2.0.1.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jersey-common-2.21.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/jersey-common-2.21.1.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jersey-guava-2.21.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/jersey-guava-2.21.1.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jersey-client-2.21.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/jersey-client-2.21.1.jar
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=jersey-server-2.21.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/jersey-server-2.21.1.jar
+
+
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=min-ejb3-api-3.1.0\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/min-ejb3-api.jar
 
 mvn install:install-file \
   -DgroupId=atg \
@@ -221,5 +312,16 @@ mvn install:install-file \
   -Dversion=${ATG_VERSION} \
   -Dfile=${DYNAMO_ROOT}/DAF/Endeca/Assembler/lib/endeca_navigation-${ENDECA_NAV_VERSION}.jar
 
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=publishing-base \
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/Publishing/base/lib/classes.jar
 
-
+mvn install:install-file \
+  -DgroupId=atg \
+  -DartifactId=javax.ws.rs-api-2.0.1\
+  -Dpackaging=jar \
+  -Dversion=${ATG_VERSION} \
+  -Dfile=${DYNAMO_ROOT}/DAS/lib/jersey/javax.ws.rs-api-2.0.1.jar

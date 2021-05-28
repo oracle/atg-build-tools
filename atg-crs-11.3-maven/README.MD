@@ -1,4 +1,4 @@
-# Oracle ATG Commerce 11.2 Commerce Reference Store Maven build
+# Oracle ATG Commerce 11.3 Commerce Reference Store Maven build
 
 This is a demonstration of building the Oracle ATG Commerce 11.2 Commerce Reference Store with Maven.
 This example build also demonstrates some best practices for managing ATG libraries, hotfixes and tag libraries in a Maven build.
@@ -6,7 +6,7 @@ This example build also demonstrates some best practices for managing ATG librar
 A PDF version of these instructions is included in the root of this repository.
 
 ### System requirements/prerequisites:
-* Oracle ATG Commerce 11.2 CRS has already been configured and installed using the instructions in the product manuals. This assumes ATG, WebLogic, Oracle database, and java are all installed and properly configured.
+* Oracle ATG Commerce 11.3 CRS has already been configured and installed using the instructions in the product manuals. This assumes ATG, WebLogic, Oracle database, and java are all installed and properly configured.
 * Maven is installed. This setup was testing with maven 3.2.5
 * A working knowledge of Maven is helpful
 
@@ -25,7 +25,7 @@ A PDF version of these instructions is included in the root of this repository.
     * This install file, and the POM included in DeployEar are for WebLogic 12.1.2. If you are using a different version of WebLogic, consult the WebLogic docs for installing and using the WebLogic maven plugin specific to that version.
     * Once libraries are added to your maven repository, there is no need to do it again unless they are deleted for some reason, or you change/add libraries.
 4.	Install the atg-maven-plugin if you want to be able to build EAR files. This is a one-time step.
-    * Download from here: https://github.com/oracle/atg-maven-plugin
+    * Download from here: https://github.com/anand-raju/atg-build-tools/atg-maven-plugin
     * Instructions are included. All you do is run mvn install.
 5.	Copy the Commerce Reference Store files needed for building into the Maven build tree. A script is provided that will copy the correct files to the correct location, and change the module name in the appropriate files.
     * From the directory you extracted this sample to, execute ./copy-CRS-Files.sh
@@ -226,7 +226,7 @@ Make sure you have removed any existing deployments bound to the ATGProduction i
 ## Contributing
 
 See
-[CONTRIBUTING](https://github.com/oracle/atg-crs-11.2-maven/tree/master/CONTRIBUTING.md)
+[CONTRIBUTING](https://github.com/anand-raju/atg-crs-11.3-maven/tree/master/CONTRIBUTING.md)
 for details.
 
 

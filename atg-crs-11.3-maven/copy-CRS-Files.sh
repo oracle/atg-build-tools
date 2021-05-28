@@ -73,7 +73,6 @@ mycp ${CRS_HOME}/Store/EStore/META-INF Store/EStore/EStore/src/main/module
 mycp ${CRS_HOME}/Store/EStore/src/config Store/EStore/EStore/src/main
 mycp ${CRS_HOME}/Store/EStore/src/Java/* Store/EStore/EStore/src/main/java
 mycp ${CRS_HOME}/Store/EStore/admin Store/EStore/EStore/src/main
-mycp ${CRS_HOME}/Store/EStore/keystore Store/EStore/EStore/src/main
 
 mycp ${CRS_HOME}/Store/EStore/International/liveconfig Store/EStore/International/International/src/main
 mycp ${CRS_HOME}/Store/EStore/International/META-INF Store/EStore/International/International/src/main/module
@@ -173,8 +172,6 @@ changeModuleName Store/Recommendations/International/src/main/module/META-INF/MA
 changeModuleName Store/Storefront/NoPublishing/International/src/main/module/META-INF/MANIFEST.MF
 changeModuleName Store/Storefront/NoPublishing/NoPublishing/src/main/module/META-INF/MANIFEST.MF
 
-sed -i 's/Store.EStore/MavenStore.EStore/' Store/EStore/EStore/src/main/config/atg/store/security/crypto/SecretKeyStoreManager.properties
 sed -i 's/Store.EStore/MavenStore.EStore/' Store/EStore/EStore/src/main/config/atg/modules/Store.properties
-
 sed -i '$ a Build-Date: ${timestamp}' Store/EStore/EStore/src/main/module/META-INF/MANIFEST.MF
 
